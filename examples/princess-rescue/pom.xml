@@ -17,6 +17,10 @@
     <properties>
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
         <jboss.domain>default</jboss.domain>
+        
+        <version.ajocado>1.0.0.Alpha1</version.ajocado>
+        <version.selenium>2.0rc2</version.selenium>
+        <version.arquillian_extension>1.0.0.CR1</version.arquillian_extension>
     </properties>
 
     <dependencies>
@@ -38,11 +42,10 @@
             <artifactId>jboss-annotations-api_1.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <classifier>jdk15</classifier>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
 
         <dependency>
@@ -51,20 +54,55 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Functional test dependencies -->
+            <!-- Functional test dependencies -->
         <dependency>
-            <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-            <artifactId>selenium-java-client-driver</artifactId>
-            <version>${selenium.java.client.version}</version>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+        </dependency>            
+            
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-impl</artifactId>
+            <version>${version.arquillian_extension}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.jboss.test</groupId>
-            <artifactId>richfaces-selenium</artifactId>
-            <version>${richfaces.selenium.version}</version>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium</artifactId>
+            <version>${version.arquillian_extension}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium-server</artifactId>
+            <version>${version.arquillian_extension}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-webdriver</artifactId>
+            <version>${version.arquillian_extension}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-drone</artifactId>
+            <version>${version.arquillian_extension}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-control</artifactId>
+            <version>${version.selenium}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>${version.selenium}</version>
+            <scope>test</scope>
+        </dependency>
+            
 
     </dependencies>
 
@@ -120,6 +158,12 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <configuration>
                             <webXml>${basedir}/src/main/jbossas-resources/web.xml</webXml>
+                            <!-- temporary workaround for SOLDER-119 -->
+                            <archive>
+                                <manifestEntries>
+                                    <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
+                                </manifestEntries>
+                            </archive>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -163,6 +207,62 @@
                 </dependency>
             </dependencies>
         </profile>
-    </profiles>
 
+
+        <profile>
+            <id>ftest-jbossas-managed-7</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-web-6.0</artifactId>
+                    <type>pom</type>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                </testResources>
+    
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webXml>${basedir}/src/main/jbossas-resources/web.xml</webXml>
+                            <!-- temporary workaround for SOLDER-119 -->
+                            <archive>
+                                <manifestEntries>
+                                    <Dependencies>org.jboss.logging,org.jboss.logmanager</Dependencies>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>false</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>    
 </project>
