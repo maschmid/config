@@ -17,10 +17,6 @@
     <properties>
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
         <jboss.domain>default</jboss.domain>
-        
-        <version.ajocado>1.0.0.Alpha1</version.ajocado>
-        <version.selenium>2.0rc2</version.selenium>
-        <version.arquillian_extension>1.0.0.CR1</version.arquillian_extension>
     </properties>
 
     <dependencies>
@@ -63,44 +59,30 @@
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-impl</artifactId>
-            <version>${version.arquillian_extension}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-selenium</artifactId>
-            <version>${version.arquillian_extension}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-selenium-server</artifactId>
-            <version>${version.arquillian_extension}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-webdriver</artifactId>
-            <version>${version.arquillian_extension}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
             <artifactId>arquillian-ajocado-drone</artifactId>
-            <version>${version.arquillian_extension}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-control</artifactId>
-            <version>${version.selenium}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
-            <version>${version.selenium}</version>
-            <scope>test</scope>
         </dependency>
             
 
