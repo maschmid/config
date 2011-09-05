@@ -21,6 +21,7 @@
 
     <modules>
         <module>providers/xml</module>
+        <module>testsuite</module>
     </modules>
 
     <dependencyManagement>
